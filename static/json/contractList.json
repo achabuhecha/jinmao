@@ -1,0 +1,46 @@
+{
+  "list": [{
+      "contractCode": "0000000000000001",
+      "contractName": "合同",
+      "contractDate": "2018-04-25",
+      "contractType": "工程合同1",
+      "contractPrize": "￥100,000"
+    },{
+        "contractCode": "0000000000000002",
+        "contractName": "合同2",
+        "contractDate": "2018-03-25",
+        "contractType": "工程合同2",
+        "contractPrize": "￥200,000"
+      },{
+        "contractCode": "0000000000000003",
+        "contractName": "合同3",
+        "contractDate": "2018-02-25",
+        "contractType": "工程合同3",
+        "contractPrize": "￥300,000"
+      },{
+        "contractCode": "0000000000000004",
+        "contractName": "合同4",
+        "contractDate": "2018-01-25",
+        "contractType": "工程合同4",
+        "contractPrize": "￥400,000"
+      },{
+        "contractCode": "0000000000000005",
+        "contractName": "合同5",
+        "contractDate": "2018-00-25",
+        "contractType": "工程合同5",
+        "contractPrize": "￥500,000"
+      },{
+        "contractCode": "0000000000000006",
+        "contractName": "合同6",
+        "contractDate": "2018-66-25",
+        "contractType": "工程合同6",
+        "contractPrize": "￥600,000"
+      },{
+        "contractCode": "0000000000000007",
+        "contractName": "合同7",
+        "contractDate": "2018-77-25",
+        "contractType": "工程合同7",
+        "contractPrize": "￥700,000"
+      }
+  ]
+}

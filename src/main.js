@@ -8,9 +8,15 @@ Vue.use(Mint)
 import 'mint-ui/lib/style.css'
 
 import './assets/css/my-mint.css'//全局修改mint-UI样式
-
+import './assets/css/style.css'
 // import 'lib-flexible'
 import 'lib-flexible/flexible.js'
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+import axios from 'axios'
+Vue.prototype.axios = axios
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
