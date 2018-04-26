@@ -1,0 +1,96 @@
+/*登录页面*/
+*{
+    padding: 0;
+    margin: 0;
+}
+html,body{
+    background: white;
+    height: 100%;
+}
+#app, .containerDiv, #containerDiv{
+    height: 100%;
+}
+#containerDiv{    
+    background: #f2f2f2;
+}
+.loginDiv{
+    margin-top: 200px;
+}
+.loginDiv .logo img{
+    width: 50%;
+}
+.loginDiv .mui-input-group:before,.mui-input-group:after{
+    display: none;
+}
+.loginDiv .mui-input-group{
+    width: 686px;
+    margin: auto;
+}
+.loginDiv .mui-input-group .mui-input-row{
+    height: 138px;
+    display: flex;
+    align-items: flex-end;
+}
+/* .loginDiv .mui-input-group .mui-input-row *{
+    display: flex;
+    align-items: baseline
+} */
+.mui-input-row label{
+    font-size: 32px;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 15px;
+    margin-left: 24px;
+}
+.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+    padding-bottom: 5px;
+}
+.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+    top: 48px;
+    height: 10px;
+}
+.mui-input-group .mui-input-row:after{
+    color: #efefef;
+}
+.mui-btn, button, input[type=button], input[type=reset], input[type=submit]{
+    background: url("../../../static/image/Button_Login.png") no-repeat center;
+    margin: auto;
+    margin-top: 146px;
+    font-size: 36px;
+    width: 660px;
+    height: 72px;
+    border-radius: 35px;
+    color: white;
+}
+
+/*合同列表*/
+.contractQueryDiv{
+    font-size: 16px;
+}
+.mui-bar-nav~.mui-content {
+    padding-top: 36px;
+    width: 686px;
+    margin: auto;
+    background: #f2f2f2;
+    text-align:left;
+}
+.mui-bar-nav{
+    /* text-align: left; */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 108px;
+    background: white;
+}
+.mui-bar-nav img{
+    width: 48px;
+    margin-right: 15px
+}
+.mui-table-view:before{
+    display: none;
+}
+.contractCode{
+    height: 70px;
+    font-size: 28px;
+    align-items: center
+}
