@@ -1,9 +1,27 @@
 <template>
   <div class="contractQueryDiv">
-    <mt-header fixed title="合同查询">
+    <!-- <mt-header fixed title="合同查询">
       <img class="ifSelect" src="../../static/image/icon-saixuan.png" slot="right" alt="">
-    </mt-header>
-    <div class="mt-content">
+    </mt-header> -->
+    <header class="mui-bar mui-bar-nav">
+      <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+      <h1 class="mui-title">合同查询</h1>
+      <img src="../../static/image/icon-saixuan.png" alt="">
+    </header>
+    <div class="mui-content">
+			<ul class="mui-table-view contractList">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right contractCode">合同编码：</a>
+					<a class="contractName">点点滴滴的合同</a>
+					<a class="contractDetails">
+						<span class="contractDate">2018-01-01</span>
+						<span class="contractType">工程合同</span>
+						<span class="contractPrize">￥100,100</span>
+					</a>
+				</li>
+			</ul>
+    </div>
+    <!-- <div class="mt-content">
       <ul>
           <li v-for="(item,index) in listJson" :key="index">
               <mt-cell :title="'合同编号：'+item.contractCode" to="//github.com" is-link></mt-cell>
@@ -15,12 +33,12 @@
               </div>
           </li>
       </ul>
-    </div> 
+    </div>  -->
   </div>
 </template>
 
 <script>
-import { Header, Cell,Tabbar, TabItem } from "mint-ui";
+// import { Header, Cell,Tabbar, TabItem } from "mint-ui";
 
 // Vue.component(Header.name, Header);
 export default {
@@ -32,7 +50,7 @@ export default {
     };
   },
   components: {
-    Header,Cell,Tabbar, TabItem
+    // Header,Cell,Tabbar, TabItem
   },
   created() {
     this.init();
@@ -63,7 +81,7 @@ export default {
 </script>
 
 <style>
-.contractQueryDiv {
+/* .contractQueryDiv {
   font-size: 16px;
 }
 .contractQueryDiv ul li {
@@ -71,6 +89,6 @@ export default {
 }
 .contractCode {
   background: #fafafa;
-}
+} */
 </style>
  

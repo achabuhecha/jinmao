@@ -3,9 +3,23 @@
     <div class="logo">
       <img src="../../static/image/icon_logo.png" alt="">
     </div>
-    <mt-field class="asd" label="账号" placeholder="请输入用户名" v-model="username"></mt-field>
+    <form class="mui-input-group">
+      <div class="mui-input-row">
+          <label>账号</label>
+      <input type="text" class="mui-input-clear" placeholder="请输入用户名">
+      </div>
+      <div class="mui-input-row">
+          <label>密码</label>
+          <input type="password" class="mui-input-password" placeholder="请输入密码">
+      </div>
+      <div class="mui-button-row">
+          <button type="button" class="mui-btn" @click="loginApp">登&nbsp;录</button>
+      </div>
+  </form>
+    <!-- <mt-field class="asd" label="账号" placeholder="请输入用户名" v-model="username"></mt-field>
     <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
-    <mt-button class="loginBtn" type="primary" @click="loginApp">登&nbsp;录</mt-button>
+    <mt-button class="loginBtn" type="primary" @click="loginApp">登&nbsp;录</mt-button> -->
+
   </div>
 </template>
 
