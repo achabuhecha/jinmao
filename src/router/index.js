@@ -9,7 +9,7 @@ import personMsg from '@/components/personMsg'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -36,7 +36,8 @@ export default new Router({
           path: '/personMsg',
           name: 'personMsg',
           component: personMsg
-        }]
+        }
+      ]
     }
   ]
 })
