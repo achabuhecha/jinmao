@@ -20,14 +20,10 @@ export default {
         selected:"个人信息"
       }
   },
-  created () {
-    //   console.log(this)
-  },
-//   props:['childDetails'],
   methods:{
-      togglePage:function(param){
-          this.$emit("toTogglePage",param)
-      }
+    togglePage:function(param){
+        this.$emit("toTogglePage",param)
+    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="contractCreateDiv">
         <header class="mui-bar mui-bar-nav">
-            <h1 class="mui-title">合同录入</h1>
+            <h1 class="mui-title">合同详情</h1>
         </header>
         <div class="mui-scroll-wrapper contractCreateWrapper">
             <div class="mui-scroll">
@@ -288,53 +288,22 @@ export default {
       textTips: "点击此处上传合同附件",
       createTime:true,
       fileName:"",
-      hasUpLoadFileList:[],
-      childDetailsNull:{
-          contractID:"",
-          prjID:"",
-          prjName:"",
-          contractCode:"",
-          contractName:"",
-          typeID:"",
-          signingDate:"",
-          totalAmount:"",
-          contractTerm:"",
-          tenderingPerson:"",
-          costPerson:"",
-          executePerson:"",
-          contractor:"",
-          contractorPerson:"",
-          contractorLinkPhone:"",
-          projectManager:"",
-          timeLimit:"",
-          paymentCondition:"",
-          rewardCondition:"",
-          brandRequire:"",
-          supplyRange:"",
-          prjTeam:"",
-          hse:"",
-          other:"",
-          discloseDate:"",
-          createDate:"",
-          createUserID:"",
-          createDate_str:"",
-          discloseDate_str:""
-      }
+      hasUpLoadFileList:[]
     };
   },
   props:['childDetails'],
   created() {
     this.init();
   },
-  watch:{
-        'childDetails' (val, oldVal) {
-            console.log("val,oldVal")
-            console.log(val,oldVal)
-        },
-        hasUpLoadFile(val, oldVal) {
-            console.log(val, oldVal);
-        }
-  },
+//   watch:{
+//     'childDetails' (val, oldVal) {
+//         console.log("val,oldVal")
+//         console.log(val,oldVal)
+//     },
+//     hasUpLoadFile(val, oldVal) {
+//         console.log(val, oldVal);
+//     }
+//   },
   methods: {
     init() {
 
@@ -375,23 +344,14 @@ export default {
     saveContract(){
         var vm = this;
         vm.axios.post('/addContract',{
-        //   prjName:childDetails.pageNo,      //项目名称
-        //   contractCode:childDetails.contractCode,       //合同编码
-        //   contractName:childDetails.contractName,       //合同名称
-        //   totalAmount:childDetails.totalAmount      //总金额
-            prjName:"prjName",
-            contractCode:"AFCH123",
-            contractName:"contractName",
-            totalAmount:555444
+          prjName:childDetails.pageNo,      //项目名称
+          contractCode:childDetails.contractCode,       //合同编码
+          contractName:childDetails.contractName,       //合同名称
+          totalAmount:childDetails.totalAmount      //总金额
         })
         .then(function(data) {
-          console.log(data)
           if(data.data.result=="1"){
             mui.alert('保存成功', '提示');
-            // vm.listJson = data.data.data.result;
-            // vm.pageAll = Math.ceil(data.data.data.totalSize/5)
-            // console.log(vm.pageAll)
-            // console.log(data.data.data.result.length)
           }
         })
         .catch(function(error) {

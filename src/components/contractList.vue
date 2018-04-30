@@ -71,7 +71,6 @@
         this.$emit("toTogglePage",["contractView",this.listJson[index]])
       },
       tapPage(index){
-        // if()
         this.pageNo = index+1;
         this.init()
       }
