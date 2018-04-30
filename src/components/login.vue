@@ -33,19 +33,18 @@ export default {
     loginApp(){
       var account = this.username;
       var pwd = this.password;
-      // if(account="yaowei"&&pwd=="123456")
-      // this.$router.push({ name: 'main', params: { login: true }})
-      //调用axios，校验、完成登录（可能存储账号密码）
       var vm = this;
       // vm.axios.get('../../static/json/contractList.json')
       vm.axios.post('/login',{
-					// prarms:{
             username:account,
             password:pwd
 				})
 			.then(function(data) {
         if(data.data.result=="1"){
-          vm.$router.push({ name: 'main', params: { login: true ,userN:vm.username,userP:vm.password}})
+          localStorage.setItem("username",account);
+          localStorage.setItem("password",pwd);
+          vm.$router.push({ name: 'main', params: { login: true}});
+          //  ,userN:vm.username,userP:vm.password
         }
 			})
 			.catch(function(error) {
