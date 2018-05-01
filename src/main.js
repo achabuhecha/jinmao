@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import './assets/css/mystyle.css'
 import 'lib-flexible/flexible.js'
+import '../static/js/validate'
+import '../static/css/bundle.css'
 import VueRouter from 'vue-router'
 import Qs from 'qs'
 import axios from 'axios'
@@ -12,18 +14,15 @@ import VueAxios from 'vue-axios'
 // import '../static/css/iosSelect.css'
 Vue.use(VueRouter)
 Vue.prototype.axios = axios
-// axios.defaults.baseURL = 'http://101.132.67.52/'// 配置接口地址
-// axios.defaults.baseURL = 'http://47.98.224.133:9994/api'// 配置接口地址
-
-var axios_instance = axios.create({
-  baseURL:'http://47.98.224.133:9994/api',
+var axiosInstance = axios.create({
+  baseURL: 'http://47.98.224.133:9994/api',
   transformRequest: [function (data) {
-    data = Qs.stringify(data);
-    return data;
+    data = Qs.stringify(data)
+    return data
   }],
-  headers:{'Content-Type':'application/x-www-form-urlencoded'}
+  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
-Vue.use(VueAxios, axios_instance)
+Vue.use(VueAxios, axiosInstance)
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */

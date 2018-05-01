@@ -1,5 +1,8 @@
 <template>
   <div>
+
+
+    
       <div class="personMsg">
         <img src="../../static/image/touxiang.png" alt="">
         <span class="userNameSpan">{{userName}}</span>
@@ -7,6 +10,12 @@
     <p class="changePwd" @tap="changePwd">修改密码</p>
     <p class="changePwd" @tap="exitLogin">退出登录</p>
     <p>{{tipMsg}}</p>
+
+
+
+    
+    
+    
     <div id="div" style="width: 0px;height: 0px;background: red;position: fixed;top: 70%;left: 50%;"></div>  
     <div id="popover" class="mui-popover" style="height: 240px;width:320px">  
       <div class="mui-popover-arrow"></div>  
@@ -35,10 +44,22 @@ export default {
   data(){
       return{
         userName:"茶茶",
-        tipMsg:""
+        tipMsg:"",
+        timeSel:"选择时间 ..."
       }
   },
   methods: {
+      show(){
+        var vm = this;
+        var dtPicker = new mui.DtPicker({
+          "type":"date"
+        });
+        dtPicker.show(
+          function (selectItems) { 
+            vm.timeSel =selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value;
+          }
+        );     
+      },
       changePwd(){
         mui("#popover").popover('toggle', document.getElementById("div"));  
       },

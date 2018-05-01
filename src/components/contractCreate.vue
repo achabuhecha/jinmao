@@ -14,8 +14,11 @@
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
                                 <span class="singleTitle">项目信息:</span>
-                                <input class="singleInput" type="text" name="" v-model="childDetails.prjName">
+                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.prjName"> -->
+                                <input class="form-control singleInput" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入菜单序号">
+                                <!-- <p id="nameRulesTip">请输入纯数字</p> -->
                             </div>
+                                <!-- <div v-show="errors.has('orderNum')" class="help is-danger">{{ errors.first('orderNum') }}</div> -->
                         </div>
                     </li>
                 </ul>
@@ -36,12 +39,7 @@
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">签订日期:</span>
-                                <div class="form-item item-line" id="selectDate">                 
-                                    <label id="showDateLabel" v-show="!asd" @tap="selTime">时间选择器</label>                 
-                                    <div class="pc-box">                     
-                                        <span data-year="" data-month="" data-date="" id="showDate" @tap="selTime"></span>  
-                                    </div>             
-                                </div>
+                                <input class="singleInput" type="text" name="" id="demo5" @tap="showSignDate" v-model="timeSel">
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">合同类别:</span>
@@ -216,70 +214,6 @@
     </div>
 </template>
 <script>
-var selectDateDom = $('#selectDate');
-var showDateDom = $('#showDate');
-nowYear,nowMonth,nowDate;
-showDateDom.attr('data-year', nowYear);
-showDateDom.attr('data-month', nowMonth);
-showDateDom.attr('data-date', nowDate);
-// 数据初始化
-function formatYear (nowYear) {
-    var arr = [];
-    for (var i = nowYear - 5; i <= nowYear + 5; i++) {
-        arr.push({
-            id: i + '',
-            value: i + '年'
-        });
-    }
-    return arr;
-}
-function formatMonth () {
-    var arr = [];
-    for (var i = 1; i <= 12; i++) {
-        arr.push({
-            id: i + '',
-            value: i + '月'
-        });
-    }
-    return arr;
-}
-function formatDate (count) {
-    var arr = [];
-    for (var i = 1; i <= count; i++) {
-        arr.push({
-            id: i + '',
-            value: i + '日'
-        });
-    }
-    return arr;
-}
-var yearData = function(callback) {
-    callback(formatYear(nowYear))
-}
-var monthData = function (year, callback) {
-    callback(formatMonth());
-};
-var dateData = function (year, month, callback) {
-    // settimeout只是模拟异步请求，真实情况可以去掉
-    // setTimeout(function() {
-    if (/^(1|3|5|7|8|10|12)$/.test(month)) {
-        callback(formatDate(31));
-    }
-    else if (/^(4|6|9|11)$/.test(month)) {
-        callback(formatDate(30));
-    }
-    else if (/^2$/.test(month)) {
-        if (year % 4 === 0 && year % 100 !==0 || year % 400 === 0) {
-           callback(formatDate(29));
-        }
-        else {
-            callback(formatDate(28));
-        }
-    }
-    else {
-        throw new Error('month is illegal');
-    }
-};
 export default {
   data() {
     return {
@@ -289,56 +223,20 @@ export default {
       createTime:true,
       fileName:"",
       hasUpLoadFileList:[],
-      childDetailsNull:{
-          contractID:"",
-          prjID:"",
-          prjName:"",
-          contractCode:"",
-          contractName:"",
-          typeID:"",
-          signingDate:"",
-          totalAmount:"",
-          contractTerm:"",
-          tenderingPerson:"",
-          costPerson:"",
-          executePerson:"",
-          contractor:"",
-          contractorPerson:"",
-          contractorLinkPhone:"",
-          projectManager:"",
-          timeLimit:"",
-          paymentCondition:"",
-          rewardCondition:"",
-          brandRequire:"",
-          supplyRange:"",
-          prjTeam:"",
-          hse:"",
-          other:"",
-          discloseDate:"",
-          createDate:"",
-          createUserID:"",
-          createDate_str:"",
-          discloseDate_str:""
-      }
+      timeSel:"选择签订日期"
     };
   },
   props:['childDetails'],
-  created() {
-    this.init();
-  },
   watch:{
-        'childDetails' (val, oldVal) {
-            console.log("val,oldVal")
-            console.log(val,oldVal)
-        },
-        hasUpLoadFile(val, oldVal) {
-            console.log(val, oldVal);
-        }
+    'childDetails' (val, oldVal) {
+        // console.log("val,oldVal")
+        // console.log(val,oldVal)
+    },
+    hasUpLoadFile(val, oldVal) {
+        // console.log(val, oldVal);
+    }
   },
   methods: {
-    init() {
-
-    },
     triggerUpLoadFile() {
       document.getElementById("asa").tap();
     },
@@ -348,50 +246,25 @@ export default {
       this.hasUpLoadFile = true;
       this.hasUpLoadFileList.push(files["0"].name)
     },
-    selTime(){
+    showSignDate(){
         var vm = this;
-        var oneLevelId = showDateDom.attr('data-year');
-        var twoLevelId = showDateDom.attr('data-month');
-        var threeLevelId = showDateDom.attr('data-date');
-        var iosSelect = new IosSelect(3, 
-            [yearData, monthData, dateData],
-            {
-                title: '合同日期选择',
-                itemHeight: 35,
-                oneLevelId: oneLevelId,
-                twoLevelId: twoLevelId,
-                threeLevelId: threeLevelId,
-                showLoading: true,
-                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
-                    showDateDom.attr('data-year', selectOneObj.id);
-                    showDateDom.attr('data-month', selectTwoObj.id);
-                    showDateDom.attr('data-date', selectThreeObj.id);
-                    // $("#showDate").html((selectOneObj.value.toString().replace("年","-") + ' ' + selectTwoObj.value.toString().replace("月","-") + ' ' + selectThreeObj.value.toString().replace("日","")));
-                    $("#showDate").html((selectOneObj.value.toString() + ' ' + selectTwoObj.value.toString() + ' ' + selectThreeObj.value.toString()));
-                    vm.asd=true;
-                }
+        var dtPicker = new mui.DtPicker({
+          "type":"date"
         });
+        dtPicker.show(
+          function (selectItems) { 
+            vm.timeSel =selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value;
+          }
+        );         
     },
     saveContract(){
+        console.log(this.childDetails)
         var vm = this;
-        vm.axios.post('/addContract',{
-        //   prjName:childDetails.pageNo,      //项目名称
-        //   contractCode:childDetails.contractCode,       //合同编码
-        //   contractName:childDetails.contractName,       //合同名称
-        //   totalAmount:childDetails.totalAmount      //总金额
-            prjName:"prjName",
-            contractCode:"AFCH123",
-            contractName:"contractName",
-            totalAmount:555444
-        })
+        vm.axios.post('/addContract',this.childDetails)
         .then(function(data) {
           console.log(data)
           if(data.data.result=="1"){
             mui.alert('保存成功', '提示');
-            // vm.listJson = data.data.data.result;
-            // vm.pageAll = Math.ceil(data.data.data.totalSize/5)
-            // console.log(vm.pageAll)
-            // console.log(data.data.data.result.length)
           }
         })
         .catch(function(error) {
@@ -490,6 +363,9 @@ export default {
   border-radius: 0 !important;
   font-size: 32px;
 }
+/* .singleContentDiv input{
+    width: 60% !important;
+} */
 .mui-table-view-cell.mui-collapse .mui-collapse-content {
   padding: 0;
 }
@@ -538,5 +414,10 @@ export default {
 #minHeightSet div ul li span{
     display: flex;
     align-items: center;
+}
+div.help{
+    font-size: 24px;
+    padding: 5px;
+    text-align: right;
 }
 </style>
