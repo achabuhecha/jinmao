@@ -3,7 +3,7 @@
         <header class="mui-bar mui-bar-nav">
             <h1 class="mui-title">合同详情</h1>
         </header>
-        <div class="mui-scroll-wrapper contractCreateWrapper">
+        <div class="mui-scroll-wrapper contractViewWrapper">
             <div class="mui-scroll">
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse mui-active">
@@ -36,8 +36,8 @@
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">签订日期:</span>
-                                <div class="form-item item-line" id="selectDate">                 
-                                    <label id="showDateLabel" v-show="!asd">时间选择器</label>                    
+                                <div class="form-item item-line" id="selectDate">
+                                    <label id="showDateLabel" v-show="!asd" v-html="childDetails.discloseDate_str">时间选择器</label>
                                 </div>
                             </div>
                             <div class="singleContentDivNotFirst">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                     </li>
-                </ul>             
+                </ul>
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse mui-active">
                         <a class="mui-navigate-right" href="#">
@@ -143,7 +143,7 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="mui-table-view">                    
+                <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse mui-active">
                         <a class="mui-navigate-right" href="#">
                             <img class="itemTypeImg" src="../../static/image/icon_fujian.png" alt="">
@@ -196,159 +196,33 @@
     </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      asd: false,
-      hasUpLoadFile: false,
-      textTips: "点击此处上传合同附件",
-      createTime:true,
-      fileName:"",
-      hasUpLoadFileList:[]
+    export default {
+        data() {
+            return {
+                asd: false,
+                hasUpLoadFile: false,
+                textTips: "点击此处上传合同附件",
+                createTime: true,
+                fileName: "",
+                hasUpLoadFileList: [],
+                childDetails: {}
+            }
+        },
+        created() {
+            this.childDetails = this.$route.params.contractDetails
+        },
+        mounted: function() {
+            $("input.singleInput").attr("readonly", "readonly") //将input元素设置为readonly
+        },
+        watch: {
+            '$route' (val, oldVal) {
+                if(val.path == "/contractView") {
+                    this.childDetails = val.params.contractDetails;
+                }
+            }
+        }
     };
-  },
-  props:['childDetails'],
-  created() {
-    console.log(this.childDetails)
-  },
-};
 </script>
 <style>
-.mui-scroll {
-  padding-top: 108px;
-  padding-bottom: 240px; /*196*/
-}
-.mui-scroll-wrapper .mui-table-view {
-  width: 686px;
-  margin: auto;
-  background: #f2f2f2;
-}
-.contractCreateWrapper .mui-table-view-cell > a:not(.mui-btn) {
-  color: #4e8ded;
-  font-weight: bold;
-}
-.mui-table-view-cell.mui-collapse.mui-active,
-.mui-table-view li {
-  margin-top: 0;
-}
-.mui-input-row label {
-  font-size: 32px;
-  display: flex;
-  justify-content: flex-start;
-  padding-bottom: 15px;
-  margin-left: 24px;
-}
-.mui-input-row label ~ input,
-.mui-input-row label ~ select,
-.mui-input-row label ~ textarea {
-  padding-bottom: 5px;
-}
-.mui-input-row .mui-input-clear ~ .mui-icon-clear,
-.mui-input-row .mui-input-password ~ .mui-icon-eye,
-.mui-input-row .mui-input-speech ~ .mui-icon-speech {
-  top: 36px; /*48px*/
-  height: 10px;
-}
-.mui-input-group .mui-input-row:after {
-  color: #efefef;
-}
-.mui-input-row label {
-  width: 30%;
-}
-.mui-input-row {
-  border-bottom: 1px solid gray;
-  height: 98px;
-  display: flex;
-  align-items: center;
-}
-.mui-collapse-content .mui-input-row:nth-child(1) {
-  border-top: 1px solid gray;
-}
-.tapToUpLoadFileText {
-  color: #4e8ded;
-}
-.singleTitle {
-  font-size: 32px;
-  color: #333333;
-  width: 40%;
-}
-.mui-table-view-cell {
-  margin: 0;
-}
-.singleInput {
-  width: 60% !important;
-  margin: 0 !important;
-  margin-left: 50px !important;
-  border: 0 !important;
-}
-.singleContentDiv {
-  height: 98px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 0 !important;
-  border-top: 1px solid #b6b5b5 !important;
-  border-bottom: 1px solid #b6b5b5 !important;
-  border-radius: 0 !important;
-  font-size: 32px;
-}
-.singleContentDivNotFirst {
-  height: 98px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 0 !important;
-  border-bottom: 1px solid #b6b5b5 !important;
-  border-radius: 0 !important;
-  font-size: 32px;
-}
-.mui-table-view-cell.mui-collapse .mui-collapse-content {
-  padding: 0;
-}
-#selectDate{
-    width: 100%;
-}
-#showDateLabel{
-    margin-left: -60px;
-    display: flex;
-    align-content: flex-start;
-    justify-content:center;
-    color: #999999
-}
-#showDate{
-    margin-left: -60px;
-    display: flex;
-    align-content: flex-start;
-    justify-content:center;
-}
-.uploadFileDiv{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.uploadFileDiv label{
-    width: 80px;
-    padding:0;
-}
-#minHeightSet{
-    height: auto;
-    min-height: 90px;
-}
-#minHeightSet span{
-    font-size: 28px;
-}
-#minHeightSet label{
-    padding: 0;
-    width: 120px;
-}
-#minHeightSet div ul li{
-    display: flex;
-    flex: 1;
-    align-content: center;
-    /* justify-content: center; */
-}
-#minHeightSet div ul li span{
-    display: flex;
-    align-items: center;
-}
+
 </style>

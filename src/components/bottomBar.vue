@@ -14,21 +14,31 @@
     </nav>  
 </template>
 <script>
-export default {
-  data(){
-      return{
-        selected:"个人信息"
-      }
-  },
-  methods:{
-    togglePage:function(param){
-        this.$emit("toTogglePage",param)
+    export default {
+        data(){
+            return{
+                selected:"个人信息"
+            }
+        },
+        methods:{
+            togglePage:function(param){
+                switch(param){
+                    case "contractList":
+                        this.$router.push("/contractList");
+                        break;
+                    case "contractCreate":
+                        this.$router.push("/contractCreate");
+                        break;
+                    case "personMsg":
+                        this.$router.push("/personMsg");
+                        break;
+                }
+            }
+        }
     }
-  }
-}
 </script>
 <style>
-html,body{
-    background: white;
-}
+    html,body{
+        background: white;
+    }
 </style>

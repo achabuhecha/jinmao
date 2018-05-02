@@ -2,7 +2,6 @@
   <div class="contractQueryDiv">
     <header class="mui-bar mui-bar-nav">
       <h1 class="mui-title">合同查询</h1>
-      <!--  @tap="refreshList" -->
       <img src="../../static/image/icon-saixuan.png" alt="">
     </header>
     <div class="mui-scroll-wrapper contractQueryWrapper">
@@ -18,16 +17,11 @@
               </div>
             </li>
           </ul>
-          <ul class="pageUl pagination">
-            <!--  style="overflow: hidden;zoom:1;" -->
-            <!-- <li @tap="tapPage(1)"><a>首页</a></li>
-            <li v-show="pageNo != 1" @tap="tapPage(pageNo-1)"><a>上一页</a></li> -->
-            <li style="display: inline-block;width: 10%;" v-for="(thisPage,index) in pageAll" :key="index" :class="{'active':pageNo == index+1}">
-              <span @tap="tapPage(index)">{{thisPage}}</span>
-            </li>
-            <!-- <li v-show="pageAll != pageNo && pageAll != 0 " @tap="tapPage(pageNo+1)"><a>下一页</a></li>
-            <li v-on:tap="tapPage(pageAll)"><a>尾页</a></li> -->
-          </ul>
+          <div id="paging">
+            <span @click="switchPage(curPage - 1)">prev</span>
+            <span v-if="showText(item)" @tap="switchPage(item)" v-for="item in sum" :key="item" :class="{'active': item == curPage}">{{ showText(item) }}</span>
+            <span @click="switchPage(curPage + 1)">next</span>
+          </div>
       </div>
     </div>
   </div>
@@ -39,9 +33,9 @@
     data() {
       return {
         listJson: {},
-        selected:'',
-        pageNo:1,
-        pageAll:0,
+        selected: '',
+        curPage: 1,
+        sum: 0,
       };
     },
     created() {
@@ -50,78 +44,105 @@
     methods: {
       init() {
         var vm = this;
-        vm.axios.post('/getContracts',{
-          pageNo:vm.pageNo,
-          pageSize:5
-        })
-        .then(function(data) {
-          console.log(data)
-          if(data.data.result=="1"){
-            vm.listJson = data.data.data.result;
-            vm.pageAll = Math.ceil(data.data.data.totalSize/5)
-            console.log(vm.pageAll)
-            console.log(data.data.data.result.length)
+        vm.axios.post('/getContracts', {
+            pageNo: vm.curPage,
+            pageSize: 5
+          })
+          .then(function(data) {
+            if(data.data.result == "1") {
+              vm.listJson = data.data.data.result;
+              vm.sum = Math.ceil(data.data.data.totalSize / 5)
+            }
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      },
+      toViewDetails(index) {
+        this.$router.push({
+          name: 'contractView',
+          params: {
+            contractDetails: this.listJson[index]
           }
         })
-        .catch(function(error) {
-          console.log(error)
-        })
       },
-      toViewDetails(index){
-        this.$emit("toTogglePage",["contractView",this.listJson[index]])
+      switchPage(page) {
+        if(page > 0 && page < this.sum + 1) {
+          this.curPage = page;
+          this.init()
+        }
       },
-      tapPage(index){
-        this.pageNo = index+1;
-        this.init()
+      showText(i) {
+        if(i === 1 || i === this.sum) {
+          //第一页和最后一页始终显示
+          return i
+        } else if(i < this.curPage + 2 && i > this.curPage - 2) {
+          //当前页的前一页和后一页始终显示
+          return i
+        } else if(i == this.curPage + 2 || i == this.curPage - 2) {
+          //当前页的前前页和后后页显示'...'
+          return '...'
+        } else {
+          //其他页面都不显示
+          return false
+        }
       }
     }
   };
 </script>
 
 <style>
-#app{
-  padding-top: 0px;
-}
-.contractQueryWrapper .mui-table-view-cell > a:not(.mui-btn){
-  color: #999999;
-  font-weight: normal;
-}
-.pagination {
-  /* position: relative; */
-  text-align: center;
-  position: fixed;
-  bottom: 200px;
-  padding-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  background: #f2f2f2;
+.contractQueryWrapper .mui-scroll {
+	padding-top: 108px;
+	padding-bottom: 320px;
 }
 
-.pagination li {
-  display: inline-block;
-  margin: 0 5px;
-  cursor: pointer;
+.contractQueryWrapper .mui-table-view-cell>a:not(.mui-btn) {
+	color: #999999;
+	font-weight: normal;
 }
 
-.pagination li span {
-  padding: 10px 13px;
-  display: inline-block;
-  border: 1px solid #f3f3f3;
-  background: #fff;
-
-  color: green;
+#paging {
+	text-align: center;
+	position: fixed;
+	bottom: 220px;
+	padding-top: 18px;
+	padding-bottom: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background: #f2f2f2;
 }
 
-.pagination li span:hover {
-  background: #eee;
+#paging::before {
+	content: " ";
+	position: absolute;
+	height: 1px;
+	right: 0;
+	bottom: 84px;
+	left: 0;
+	background-color: #E9E9E9;
+	border: 1px solid gray;
+	width: 90%;
+	margin: auto;
 }
 
-.pagination li.active span {
-  background: #DE333A;
-  color: #fff;
-  border: 1px solid #DE333A;
+#paging span {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	color: black;
+	text-align: center;
+	margin-right: 20px;
+	border-radius: 40px;
+	font-size: 28px;
+}
+
+#paging span.active {
+	background: white;
+	color: blue;
 }
 </style>
  

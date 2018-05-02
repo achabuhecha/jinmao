@@ -4,6 +4,7 @@ import login from '@/components/login'
 import main from '@/components/main'
 import contractList from '@/components/contractList'
 import contractCreate from '@/components/contractCreate'
+import contractView from '@/components/contractView'
 import personMsg from '@/components/personMsg'
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
           path: '/contractList',
           name: 'contractList',
           component: contractList
+        },
+        {
+          path: '/contractView',
+          name: 'contractView',
+          component: contractView
         },
         {
           path: '/contractCreate',

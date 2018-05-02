@@ -1,199 +1,385 @@
-*{
-    padding: 0;
-    margin: 0;
-}
-#app, .containerDiv, #containerDiv{
-    height: 100%;
-}
-/*登录页面*/
-.loginDiv{
-    margin-top: 200px;
-}
-.loginDiv .logo img{
-    width: 50%;
-}
-.loginDiv .mui-input-group:before,.mui-input-group:after{
-    display: none;
-}
-.loginDiv .mui-input-group{
-    width: 686px;
-    margin: auto;
-}
-.loginDiv .mui-input-group .mui-input-row{
-    height: 138px;
-    display: flex;
-    align-items: flex-end;
-}
-/* .loginDiv .mui-input-group .mui-input-row *{
-    display: flex;
-    align-items: baseline
-} */
-/* .mui-input-row label{
-    font-size: 32px;
-    display: flex;
-    justify-content: flex-start;
-    padding-bottom: 15px;
-    margin-left: 24px;
-}
-.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
-    padding-bottom: 5px;
-}
-.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
-    top: 48px;
-    height: 10px;
-}
-.mui-input-group .mui-input-row:after{
-    color: #efefef;
-} */
-/* .mui-btn, button, input[type=button], input[type=reset], input[type=submit]{
-    background: url("../../../static/image/Button_Login.png") no-repeat center;
-    margin: auto;
-    margin-top: 146px;
-    font-size: 36px;
-    width: 660px;
-    height: 72px;
-    border-radius: 35px;
-    color: white;
-} */
-
-/*合同列表*/
-.contractQueryDiv{
-    font-size: 16px;
-}
-.mui-bar-nav~.mui-content {
-    padding-top: 36px;
-    width: 686px;
-    margin: auto;
-    background: #f2f2f2;
-    text-align:left;
-}
-.mui-bar-nav{
-    /* text-align: left; */
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 108px;
-    background: white;
-}
-.mui-bar-nav img{
-    width: 48px;
-    margin-right: 15px
-}
-.mui-table-view:before{
-    display: none;
-}
-.contractCode{
-    height: 70px;
-    font-size: 28px;
-    align-items: center
-}
-.mui-table-view-cell{
-    padding: 0;
-    margin: 15px 0;
-}
-.mui-table-view-cell>a:not(.mui-btn){
-    height: 70px;
-    padding: 0;
-    font-size: 28px;
-    display: flex;
-    align-items:center;
-    margin: 0;
-    color: #999999;
-    padding-left: 30px;
-    background: #fafafa;
-}
-.contractName{
-    color: #333333;
-    font-size: 32px;
-    height: 98px;
-    display: flex;
-    align-items:center;
-    padding-left: 30px;
-    background: white;
-    border-top : 1px solid #e5e5e5;
-    border-bottom : 1px solid #e5e5e5;
-}
-.date-type-prize{
-    display: flex;
-    align-items: center;
-    background: white;
-    height: 70px;
-    font-size: 28px;
-    
-}
-.date-type-prize span{
-    display: flex;
-    flex: 1;
+* {
+	padding: 0;
+	margin: 0;
+	-webkit-touch-callout: none;
+	/*系统默认菜单被禁用*/
+	-webkit-user-select: none;
+	/*webkit浏览器*/
+	-khtml-user-select: none;
+	/*早期浏览器*/
+	-moz-user-select: none;
+	/*火狐*/
+	-ms-user-select: none;
+	/*IE10*/
+	user-select: none;
 }
 
-.contractDate,.contractType{
-    color: #999999;
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px white inset !important;
 }
-.contractDate{
-    justify-content: flex-start;
-    padding-left: 30px;
+
+input,
+textarea {
+	-webkit-user-select: auto;
+	/*webkit浏览器*/
+	margin: 0px;
+	padding: 0px;
+	outline: none;
 }
-.contractType{
-    justify-content: center
+
+#app,
+.containerDiv,
+#containerDiv {
+	height: 100%;
 }
-.contractPrize{    
-    justify-content: flex-end;
-    color: #e94d4b;
-    padding-right: 30px;
+
+
+/* 
+登录页面
+ */
+
+.loginDiv {
+	margin-top: 200px;
 }
-.mui-table-view-cell:after{
-    display: none;
+
+.loginDiv .logo img {
+	width: 50%;
 }
-.mui-table-view li{
-    margin-top: 20px !important;
+
+.loginDiv .mui-input-group:before,
+.mui-input-group:after {
+	display: none;
 }
-.mui-table-view-cell{
-    width: 100%;
+
+.loginDiv .mui-input-group {
+	width: 686px;
+	margin: auto;
 }
-.mui-scroll-wrapper{
-    overflow: scroll;
-    background: #f2f2f2;
+
+.loginDiv .mui-input-group .mui-input-row {
+	height: 138px;
+	display: flex;
+	align-items: flex-end;
 }
+
+.loginDiv .mui-input-row label {
+	font-size: 32px;
+	display: flex;
+	justify-content: flex-start;
+	padding-bottom: 15px;
+	margin-left: 24px;
+}
+
+.loginDiv .mui-input-row label~input {
+	padding-bottom: 5px;
+	font-size: 32px;
+}
+
+
+/* 眼睛/搜索等input相关的图标 */
+
+.loginDiv .mui-input-row .mui-input-clear~.mui-icon-clear,
+.mui-input-row .mui-input-password~.mui-icon-eye,
+.mui-input-row .mui-input-speech~.mui-icon-speech {
+	top: 72px;
+	height: 10px;
+}
+
+.loginDiv .mui-input-group .mui-input-row:after {
+	color: #efefef;
+}
+
+
+/* 登录按钮 */
+
+.loginDiv .mui-btn {
+	background: url("../../../static/image/Button_Login.png") no-repeat center;
+	margin: auto;
+	margin-top: 146px;
+	font-size: 36px;
+	width: 660px;
+	height: 72px;
+	border-radius: 35px;
+	color: white;
+}
+
+/* 
+main.vue页面
+ */
+
+
+
+/* 
+合同列表
+ */
+
+/* 根div */
+.contractQueryDiv {
+	font-size: 16px;
+}
+/* 合同列表 header显示 */
+.mui-bar-nav {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 108px;
+	background: white;
+}
+
+/* 合同列表 header--img（筛选图片） */
+.mui-bar-nav img {
+	width: 48px;
+	margin-right: 15px
+}
+/* 合同列表 去掉多余的线 */
+.mui-table-view:before {
+	display: none;
+}
+
+/* 每项合同的合同编码（整行，可点击） */
+.contractCode {
+	height: 70px;
+	font-size: 28px;
+	align-items: center
+}
+
+/* 每项合同  li */
+.mui-table-view-cell {
+	padding: 0;
+	margin: 15px 0;
+}
+/* 每项合同的合同编码（整行，可点击）,覆盖默认样式 */
+.mui-table-view-cell>a:not(.mui-btn) {
+	height: 70px;
+	padding: 0;
+	font-size: 28px;
+	display: flex;
+	align-items: center;
+	margin: 0;
+	color: #999999;
+	padding-left: 30px;
+	background: #fafafa;
+}
+
+.contractName {
+	color: #333333;
+	font-size: 32px;
+	height: 98px;
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+	background: white;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.date-type-prize {
+	display: flex;
+	align-items: center;
+	background: white;
+	height: 70px;
+	font-size: 28px;
+}
+
+.date-type-prize span {
+	display: flex;
+	flex: 1;
+}
+
+.contractDate,
+.contractType {
+	color: #999999;
+}
+
+.contractDate {
+	justify-content: flex-start;
+	padding-left: 30px;
+}
+
+.contractType {
+	justify-content: center;
+}
+
+.contractPrize {
+	justify-content: flex-end;
+	color: #e94d4b;
+	padding-right: 30px;
+}
+/* 去掉多余的线 */
+.mui-table-view-cell:after {
+	display: none;
+}
+
+/* 每个合同（li）距顶20px，宽度100% */
+.mui-table-view-cell {
+	width: 100%;
+	margin-top: 20px !important;
+}
+/* 主题区域，超出部分滚动 */
+.mui-scroll-wrapper {
+	overflow: scroll;
+	background: #f2f2f2;
+}
+
+/* 去掉顶部和底部部分，其余的主体部分--可滚动区域 */
 .mui-scroll{
     padding-top: 108px;
-    padding-bottom: 320px;/*196*/
-    
+    padding-bottom: 320px;
 }
-.contractList{
-    margin: auto;
-    margin-left: 32px;
-    width: 686px;
-    background: transparent;
-}
-.mui-table-view:after{
-    display: none;
-}
-.mui-bar{
-    box-shadow:0 0 1px rgba(0, 0, 0, 0);
-    -webkit-box-shadow:0 0 1px rgba(0, 0, 0, 0);
-}
-.mui-bar-tab{
-    height: 196px;
-    background: white;
-}
-.mui-bar-tab .mui-tab-item{
-    vertical-align: bottom;
-}
-.mui-bar-tab .mui-tab-item .addContractImg{
-    position: relative;
-    bottom: 26px;
-    width: 196px;
-    height: 196px;
-}
-#addContractA{
-    overflow: visible;
+/* 合同列表的ul */
+.contractList {
+	margin: auto;
+	margin-left: 32px;
+	width: 686px;
+	background: transparent;
 }
 
-/*新建合同*/
-.mui-table-view-cell.mui-collapse .mui-collapse-content{
-    margin: 0;
+/* 去掉类似：before形式新增的多余的线 */
+.mui-table-view:after {
+	display: none;
 }
-.itemTypeImg{
-    width: 48px;
+/* 去掉类似：before形式新增的多余的线 */
+.mui-bar {
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+/* 底部导航 */
+.mui-bar-tab {
+	height: 196px;
+	background: white;
+}
+
+.mui-bar-tab .mui-tab-item {
+	vertical-align: bottom;
+}
+
+.mui-bar-tab .mui-tab-item .addContractImg {
+	position: relative;
+	bottom: 26px;
+	width: 196px;
+	height: 196px;
+}
+/* 新建合同的加号图标，修改默认的overflow，以使超出的部分可以显示； */
+#addContractA {
+	overflow: visible;
+}
+.contractQueryWrapper .mui-scroll {
+    padding-top: 108px;
+    padding-bottom: 320px; /*196*/
+  }
+  .contractQueryWrapper .mui-table-view-cell > a:not(.mui-btn){
+    color: #999999;
+    font-weight: normal;
+  }
+  #paging {
+    text-align: center;
+    position: fixed;
+    bottom: 220px;
+    padding-top:18px;
+    padding-bottom:36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #f2f2f2;
+    /* border-top: 1px solid #999999; */
+  }
+  #paging::before{
+    content: " ";
+    position: absolute;
+    height: 1px;
+    right: 0;
+    bottom: 84px;
+    left:0;
+    background-color: #E9E9E9;
+    border: 1px solid gray;
+    width: 90%;
+    margin: auto;
+  }
+  #paging span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    color: black;
+    text-align: center;
+    margin-right: 20px;
+    border-radius: 40px;
+    font-size: 28px;
+  }
+  #paging span.active {
+    background: white;
+    color: blue;
+  }
+
+  
+/* 
+合同查看、合同创建都在其vue页面内，且完全相同
+ */
+ .mui-table-view-cell.mui-collapse .mui-collapse-content {
+	margin: 0;
+}
+
+.itemTypeImg {
+	width: 48px;
+	height: 48px;
+}
+
+/*
+个人信息页面
+ */
+ .personMsg{
+    text-align: left;
+    margin-left: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+  .personMsg img{
+    width: 200px;
+    /* border: 1px solid red; */
+    margin: 20px;
+  }
+  .userNameSpan{
+    margin-left: 60px;
+  }
+  .changePwd{
+    font-size: 32px;
+    padding: 20px 80px;
+    margin-top: 20px;
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    text-align: left;
+  }
+  .changeUserMsgDiv{
+    margin-top: 40px;
+  }
+  .singleDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    padding: 20px 0;
+  }
+  .singleDiv span{
+    width: 36%;
+    /* height: 30px; */
+    text-align: right;
+    margin-right: 20px;
+  }
+  .singleDiv input{
+    width: 54%;
     height: 48px;
-}
+    margin: 0;
+    padding: 0;
+  }
+  .singleDiv button{
+    width: 160px;
+    height: 70px;
+    font-size: 32px;
+  }
+  /*移除底部或顶部三角,需要在删除此代码*/  
+  .mui-popover .mui-popover-arrow:after {  
+    width: 0px;  
+  }  
+
