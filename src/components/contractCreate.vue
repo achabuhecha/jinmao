@@ -14,8 +14,8 @@
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
                                 <span class="singleTitle">项目信息:</span>
-                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.prjName"> -->
-                                <input class="form-control singleInput" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入菜单序号">
+                                <input class="singleInput" type="text" name="" v-model="childDetails.prjName">
+                                <!-- <input class="form-control singleInput" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入菜单序号"> -->
                                 <!-- <p id="nameRulesTip">请输入纯数字</p> -->
                             </div>
                                 <!-- <div v-show="errors.has('orderNum')" class="help is-danger">{{ errors.first('orderNum') }}</div> -->
@@ -181,7 +181,7 @@
                                 <input class="singleInput" type="text" name="" v-model="childDetails.contractTerm">
                             </div>
                         </div>
-                        <div class="mui-collapse-content">
+                        <!-- <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
                                 <input v-show="false" type="file" name="upLoadFile" id="asa" @change="upLoadFile">
                                 <div>
@@ -197,7 +197,7 @@
                                 <label><img src="../../static/image/icon_add2.png" alt=""></label>
                                 <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                 </ul>
                 <ul class="mui-table-view">
@@ -238,7 +238,7 @@ export default {
   },
   methods: {
     triggerUpLoadFile() {
-      document.getElementById("asa").tap();
+      document.getElementById("asa").click();
     },
     upLoadFile(e) {
       var files = e.target.files;

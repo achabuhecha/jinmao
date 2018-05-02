@@ -37,10 +37,7 @@
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">签订日期:</span>
                                 <div class="form-item item-line" id="selectDate">                 
-                                    <label id="showDateLabel" v-show="!asd" @tap="selTime">时间选择器</label>                 
-                                    <div class="pc-box">                     
-                                        <span data-year="" data-month="" data-date="" id="showDate" @tap="selTime"></span>  
-                                    </div>             
+                                    <label id="showDateLabel" v-show="!asd">时间选择器</label>                    
                                 </div>
                             </div>
                             <div class="singleContentDivNotFirst">
@@ -154,7 +151,7 @@
                         </a>
                         <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <input v-show="false" type="file" name="upLoadFile" id="asa" @change="upLoadFile">
+                                <input v-show="false" type="file" name="upLoadFile" id="asa">
                                 <div>
                                     <ul>
                                         <li v-for="(file,index) in hasUpLoadFileList" :key="index">
@@ -163,10 +160,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
-                                <label><img src="../../static/image/icon_add2.png" alt=""></label>
-                                <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
                             </div>
                         </div>
                     </li>
@@ -185,7 +178,7 @@
                         </div>
                         <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <input v-show="false" type="file" name="upLoadFile" id="asa" @change="upLoadFile">
+                                <input v-show="false" type="file" name="upLoadFile" id="asa">
                                 <div>
                                     <ul>
                                         <li v-for="(file,index) in hasUpLoadFileList" :key="index">
@@ -194,19 +187,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
-                                <label><img src="../../static/image/icon_add2.png" alt=""></label>
-                                <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="mui-table-view">
-                    <li class="mui-table-view-cell mui-collapse mui-active">
-                        <div class="mui-collapse-content">
-                            <div class="singleContentDiv">
-                                <button @tap="saveContract">保存</button>
                             </div>
                         </div>
                     </li>
@@ -229,72 +209,8 @@ export default {
   },
   props:['childDetails'],
   created() {
-    this.init();
+    console.log(this.childDetails)
   },
-//   watch:{
-//     'childDetails' (val, oldVal) {
-//         console.log("val,oldVal")
-//         console.log(val,oldVal)
-//     },
-//     hasUpLoadFile(val, oldVal) {
-//         console.log(val, oldVal);
-//     }
-//   },
-  methods: {
-    init() {
-
-    },
-    triggerUpLoadFile() {
-      document.getElementById("asa").tap();
-    },
-    upLoadFile(e) {
-      var files = e.target.files;
-      this.fileName=files["0"].name;
-      this.hasUpLoadFile = true;
-      this.hasUpLoadFileList.push(files["0"].name)
-    },
-    selTime(){
-        var vm = this;
-        var oneLevelId = showDateDom.attr('data-year');
-        var twoLevelId = showDateDom.attr('data-month');
-        var threeLevelId = showDateDom.attr('data-date');
-        var iosSelect = new IosSelect(3, 
-            [yearData, monthData, dateData],
-            {
-                title: '合同日期选择',
-                itemHeight: 35,
-                oneLevelId: oneLevelId,
-                twoLevelId: twoLevelId,
-                threeLevelId: threeLevelId,
-                showLoading: true,
-                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
-                    showDateDom.attr('data-year', selectOneObj.id);
-                    showDateDom.attr('data-month', selectTwoObj.id);
-                    showDateDom.attr('data-date', selectThreeObj.id);
-                    // $("#showDate").html((selectOneObj.value.toString().replace("年","-") + ' ' + selectTwoObj.value.toString().replace("月","-") + ' ' + selectThreeObj.value.toString().replace("日","")));
-                    $("#showDate").html((selectOneObj.value.toString() + ' ' + selectTwoObj.value.toString() + ' ' + selectThreeObj.value.toString()));
-                    vm.asd=true;
-                }
-        });
-    },
-    saveContract(){
-        var vm = this;
-        vm.axios.post('/addContract',{
-          prjName:childDetails.pageNo,      //项目名称
-          contractCode:childDetails.contractCode,       //合同编码
-          contractName:childDetails.contractName,       //合同名称
-          totalAmount:childDetails.totalAmount      //总金额
-        })
-        .then(function(data) {
-          if(data.data.result=="1"){
-            mui.alert('保存成功', '提示');
-          }
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    }
-  }
 };
 </script>
 <style>

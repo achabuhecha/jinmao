@@ -45,6 +45,8 @@ export default {
           localStorage.setItem("password",pwd);
           vm.$router.push({ name: 'main', params: { login: true}});
           //  ,userN:vm.username,userP:vm.password
+        }else{
+          mui.alert(data.data.message, '警告')
         }
 			})
 			.catch(function(error) {
