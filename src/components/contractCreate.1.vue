@@ -1,9 +1,9 @@
 <template>
     <div class="contractCreateDiv">
         <header class="mui-bar mui-bar-nav">
-            <h1 class="mui-title">合同详情</h1>
+            <h1 class="mui-title">合同录入</h1>
         </header>
-        <div class="mui-scroll-wrapper contractViewWrapper">
+        <div class="mui-scroll-wrapper contractCreateWrapper">
             <div class="mui-scroll">
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell mui-collapse mui-active">
@@ -14,8 +14,11 @@
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
                                 <span class="singleTitle">项目信息:</span>
-                                <input class="singleInput" type="text" name="" v-model="childDetails.prjName">
+                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.prjName"> -->
+                                <input id="itemMsg" class="form-control singleInput" v-model="childDetails.prjName" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入">
+                                <!-- <p id="nameRulesTip">请输入纯数字</p> -->
                             </div>
+                            <!-- <div v-show="errors.has('orderNum')" class="help is-danger">{{ errors.first('orderNum') }}</div> -->
                         </div>
                     </li>
                 </ul>
@@ -36,9 +39,7 @@
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">签订日期:</span>
-                                <div class="form-item item-line" id="selectDate">
-                                    <label id="showDateLabel" v-show="!asd" v-html="childDetails.signingDate">时间选择器</label>
-                                </div>
+                                <input class="singleInput" type="text" name="" @tap="showSignDate" v-model="timeSel">
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">合同类别:</span>
@@ -151,15 +152,19 @@
                         </a>
                         <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <input v-show="false" type="file" name="upLoadFile" id="asa">
+                                <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
                                 <div>
                                     <ul>
-                                        <li v-for="(file,index) in hasUpLoadFileList" :key="index">
+                                        <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
                                             <label><img src="../../static/image/icon_yre.png" alt=""></label>
                                             <span v-show="hasUpLoadFile">{{file}}</span>
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                            <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
+                                <label><img src="../../static/image/icon_add2.png" alt=""></label>
+                                <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
                             </div>
                         </div>
                     </li>
@@ -172,26 +177,37 @@
                         </a>
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
-                                <!-- <span class="singleTitle">合同交底时间:</span> -->
-                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.discloseDate_str"> -->
-                                <!-- <label id="showDateLabel" v-show="!asd" v-html="childDetails.discloseDate_str">时间选择器</label> -->
                                 <span class="singleTitle">合同交底时间:</span>
-                                <div class="form-item item-line" id="selectDate">
-                                    <label id="showDateLabel1" v-html="childDetails.discloseDate_str">时间选择器</label>
-                                </div>
+                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.contractTerm"> -->
+                                <form>
+                                    <input class="singleInput" type="text" name="" @tap="showFinishDate" v-model="timeSel1">
+                                </form>
                             </div>
                         </div>
+                        <!-- <div class="mui-collapse-content">
+                        <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
+                            <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
+                            <div>
+                                <ul>
+                                    <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
+                                        <label><img src="../../static/image/icon_yre.png" alt=""></label>
+                                        <span v-show="hasUpLoadFile">{{file}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
+                            <label><img src="../../static/image/icon_add2.png" alt=""></label>
+                            <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
+                        </div>
+                    </div> -->
+                    </li>
+                </ul>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell mui-collapse mui-active">
                         <div class="mui-collapse-content">
-                            <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <input v-show="false" type="file" name="upLoadFile" id="asa">
-                                <div>
-                                    <ul>
-                                        <li v-for="(file,index) in hasUpLoadFileList" :key="index">
-                                            <label><img src="../../static/image/icon_yre.png" alt=""></label>
-                                            <span v-show="hasUpLoadFile">{{file}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="singleContentDiv">
+                                <button @tap="saveContract">保存</button>
                             </div>
                         </div>
                     </li>
@@ -199,6 +215,7 @@
             </div>
         </div>
     </div>
+
 </template>
 <script>
     export default {
@@ -209,21 +226,135 @@
                 textTips: "点击此处上传合同附件",
                 createTime: true,
                 fileName: "",
-                hasUpLoadFileList: [],
+                hasUpLoadFileList:[],
+                hasUpLoadFileNameList: [],
+                timeSel: "选择签订日期",
+                timeSel1: "选择签订日期",
                 childDetails: {}
-            }
+            };
         },
-        created() {
-            this.childDetails = this.$route.params.contractDetails
-        },
-        mounted: function() {
-            $("input.singleInput").attr("readonly", "readonly") //将input元素设置为readonly
-        },
-        watch: {
-            '$route' (val, oldVal) {
-                if(val.path == "/contractView") {
-                    this.childDetails = val.params.contractDetails;
-                }
+        methods: {
+            triggerUpLoadFile() {
+                document.getElementById("upLoadFileInputId").click();
+            },
+            upLoadFile(e) {
+                var files = e.target.files;
+                this.fileName = files["0"].name;
+                this.hasUpLoadFile = true;
+                this.hasUpLoadFileList.push(files["0"]);
+                console.log(this.hasUpLoadFileList)
+                this.hasUpLoadFileNameList.push(files["0"].name)
+            },
+            showSignDate() {
+                var vm = this;
+                var dtPicker = new mui.DtPicker({
+                    "type": "date"
+                });
+                dtPicker.show(
+                    function(selectItems) {
+                        vm.timeSel = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        vm.childDetails.signingDate = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                    }
+                );
+            },
+            showFinishDate(){
+                var vm = this;
+                var dtPicker1 = new mui.DtPicker({
+                    "type": "date"
+                });
+                dtPicker1.show(
+                    function(selectItems) {
+                        vm.timeSel1 = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        vm.childDetails.discloseDate = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        console.log(vm.childDetails)
+                    }
+                );                
+            },
+            saveContract() {
+                var money = /^\d{1,16}$/;
+                var tel = /^(13[0-9]|14[4|5|7]|15[0|1|2|3|5|6|7|8|9]|17[3|7|8]|18[0-9])\d{8}$/;
+                // if(!money.test(this.childDetails.totalAmount)){
+                //     mui.alert('签订金额请填入数字', '提示');
+                //     return
+                // }else if(this.childDetails.contractorLinkPhone=="" || !tel.test(this.childDetails.contractorLinkPhone)){
+                //     mui.alert('请输入正确的手机号', '提示');
+                //     return
+                // }else if(this.childDetails.contractopmLinkPhonerLinkPhone=="" || !tel.test(this.childDetails.contractorLinkPhone)){
+                //     mui.alert('请输入正确的手机号', '提示');
+                //     return
+                // }
+                var vm = this;
+                //  保存常规数据
+                // vm.axios.post('/addContract', this.childDetails)
+                // .then(function(data) {
+                //     if(data.data.result == "1") {
+                //         mui.alert('保存成功', '提示');
+                //     }
+                // })
+                // .catch(function(error) {
+                    
+                // })
+
+
+
+            // $.each(vm.hasUpLoadFileList,function(k,v){
+            //     var formData = new FormData();
+            //     // formData.append('plan_name', that.declareData.plan_name);
+            //     formData.append('file', v);
+            //     var xhr = new XMLHttpRequest();
+            //     xhr.open('POST', "http://47.98.224.133:9994/api/addContract", true);
+
+            //     // xhr.setRequestHeader("Accept", "application/json");
+            //     // xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            //     xhr.setRequestHeader("Content-Type","multipart/form-data");
+                
+            //     xhr.send(formData);
+            //     // 指定通信过程中状态改变时的回调函数
+            //     xhr.onreadystatechange = function () {
+            //         // 通信成功时，状态值为4
+            //         var completed = 4;
+            //         if (xhr.readyState === completed) {
+            //             if (xhr.status === 200) {
+            //                 // 处理服务器发送过来的数据
+            //                 var result = JSON.parse(xhr.responseText);
+            //                 //这里你可以随意的处理这个result对象了
+            //                 //...
+            //             } else {// 处理错误
+            //                 alert('连接超时');
+            //             }
+            //         }
+            //     };
+            // });
+
+
+                //  保存文件
+                $.each(vm.hasUpLoadFileList,function(k,v){
+                    console.log(v)
+                    var formData = new FormData();
+                    formData.append('file', v);
+                    console.log(formData)
+
+                    let config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data boundary="sdfguyijniuhyuh-yghuih-kjn"'
+                        }
+                    }
+                    // vm.axios.post('/uploadContractFile',{
+                    //     file:v
+                    // })
+
+                    vm.axios.post('/uploadContractFile',{
+                        file:v
+                    },config)
+                    .then(function(data) {
+                        if(data.data.result == "1") {
+                            mui.alert('保存成功', '提示');
+                        }
+                    })
+                    .catch(function(error) {
+                        
+                    })
+                })
             }
         }
     };
@@ -347,7 +478,7 @@
         width: 100%;
     }
 
-    #showDateLabel,#showDateLabel1 {
+    #showDateLabel {
         margin-left: -60px;
         display: flex;
         align-content: flex-start;

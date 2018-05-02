@@ -39,7 +39,7 @@
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">签订日期:</span>
-                                <input class="singleInput" type="text" name="" id="demo5" @tap="showSignDate" v-model="timeSel">
+                                <input class="singleInput" type="text" name="" @tap="showSignDate" v-model="timeSel">
                             </div>
                             <div class="singleContentDivNotFirst">
                                 <span class="singleTitle">合同类别:</span>
@@ -152,15 +152,17 @@
                         </a>
                         <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
-                                <div>
-                                    <ul>
-                                        <li v-for="(file,index) in hasUpLoadFileList" :key="index">
-                                            <label><img src="../../static/image/icon_yre.png" alt=""></label>
-                                            <span v-show="hasUpLoadFile">{{file}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <form id="form01">
+                                    <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
+                                    <div>
+                                        <ul>
+                                            <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
+                                                <label><img src="../../static/image/icon_yre.png" alt=""></label>
+                                                <span v-show="hasUpLoadFile">{{file}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
                             </div>
                             <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
                                 <label><img src="../../static/image/icon_add2.png" alt=""></label>
@@ -178,7 +180,10 @@
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
                                 <span class="singleTitle">合同交底时间:</span>
-                                <input class="singleInput" type="text" name="" v-model="childDetails.contractTerm">
+                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.contractTerm"> -->
+                                <form>
+                                    <input class="singleInput" type="text" name="" @tap="showFinishDate" v-model="timeSel1">
+                                </form>
                             </div>
                         </div>
                         <!-- <div class="mui-collapse-content">
@@ -186,7 +191,7 @@
                             <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
                             <div>
                                 <ul>
-                                    <li v-for="(file,index) in hasUpLoadFileList" :key="index">
+                                    <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
                                         <label><img src="../../static/image/icon_yre.png" alt=""></label>
                                         <span v-show="hasUpLoadFile">{{file}}</span>
                                     </li>
@@ -223,8 +228,10 @@
                 textTips: "点击此处上传合同附件",
                 createTime: true,
                 fileName: "",
-                hasUpLoadFileList: [],
+                hasUpLoadFileList:[],
+                hasUpLoadFileNameList: [],
                 timeSel: "选择签订日期",
+                timeSel1: "选择签订日期",
                 childDetails: {}
             };
         },
@@ -233,10 +240,11 @@
                 document.getElementById("upLoadFileInputId").click();
             },
             upLoadFile(e) {
+                this.hasUpLoadFile = true;
                 var files = e.target.files;
                 this.fileName = files["0"].name;
-                this.hasUpLoadFile = true;
-                this.hasUpLoadFileList.push(files["0"].name)
+                this.hasUpLoadFileList.push(files["0"]);
+                this.hasUpLoadFileNameList.push(files["0"].name)
             },
             showSignDate() {
                 var vm = this;
@@ -246,22 +254,41 @@
                 dtPicker.show(
                     function(selectItems) {
                         vm.timeSel = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        vm.childDetails.signingDate = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
                     }
                 );
             },
-            saveContract() {
-                console.log(this.childDetails)
+            showFinishDate(){
                 var vm = this;
-                vm.axios.post('/addContract', this.childDetails)
-                    .then(function(data) {
-                        console.log(data)
-                        if(data.data.result == "1") {
-                            mui.alert('保存成功', '提示');
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error)
-                    })
+                var dtPicker1 = new mui.DtPicker({
+                    "type": "date"
+                });
+                dtPicker1.show(
+                    function(selectItems) {
+                        vm.timeSel1 = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        vm.childDetails.discloseDate = selectItems.y.value + "-" + selectItems.m.value + "-" + selectItems.d.value;
+                        console.log(vm.childDetails)
+                    }
+                );                
+            },
+            saveContract() {
+                var vm = this;
+                var formData = new FormData($( "#form01" )[0]);
+                $.ajax({  
+                    url: 'http://47.98.224.133:9994/api/uploadContractFile' ,  
+                    type: 'POST',  
+                    data: formData,
+                    async: true,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (returndata) {  
+                        alert("上传成功");  
+                    },  
+                    error: function (returndata) {  
+                        alert("上传失败");  
+                    }  
+                });  
             }
         }
     };
