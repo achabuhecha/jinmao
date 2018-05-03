@@ -286,7 +286,7 @@
                     return;
                 }
                 else if(vm.childDetails.prjName==undefined||vm.childDetails.contractCode==undefined||vm.childDetails.contractName==undefined||vm.childDetails.totalAmount==undefined){
-                    mui.alert("资料填写不完整，请补充1","提示");
+                    mui.alert("资料填写不完整，请补充","提示");
                     return;
                 }
                 else if(!money.test(vm.childDetails.totalAmount)){
