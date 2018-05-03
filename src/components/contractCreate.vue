@@ -14,8 +14,8 @@
                         <div class="mui-collapse-content">
                             <div class="singleContentDiv">
                                 <span class="singleTitle">项目信息:</span>
-                                <!-- <input class="singleInput" type="text" name="" v-model="childDetails.prjName"> -->
-                                <input id="itemMsg" class="form-control singleInput" v-model="childDetails.prjName" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入">
+                                <input class="singleInput" type="text" name="" v-model="childDetails.prjName">
+                                <!-- <input id="itemMsg" class="form-control singleInput" v-model="childDetails.prjName" v-validate="'required|orderNum'" :class="{'input': true, 'is-danger': errors.has('orderNum') }" name="orderNum" type="text" placeholder="请输入"> -->
                                 <!-- <p id="nameRulesTip">请输入纯数字</p> -->
                             </div>
                             <!-- <div v-show="errors.has('orderNum')" class="help is-danger">{{ errors.first('orderNum') }}</div> -->
@@ -152,17 +152,19 @@
                         </a>
                         <div class="mui-collapse-content">
                             <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
-                                <form id="form01">
+                                <!-- <form id="form01"> -->
                                     <input v-show="false" type="file" name="upLoadFile" id="upLoadFileInputId" @change="upLoadFile">
-                                    <div>
-                                        <ul>
+                                    <div id="ulParent">
+                                        <ul v-show="hasUpLoadFileNameList!=''">
                                             <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
                                                 <label><img src="../../static/image/icon_yre.png" alt=""></label>
                                                 <span v-show="hasUpLoadFile">{{file}}</span>
+                                                <!-- <span class="delThisContractFileSpan" @tap="delThisContractFile(index)">X</span> -->
+                                                <img class="delThisContractFileSpan" @tap="delThisContractFile(index)" src="../../static/image/delFile.png" alt="">
                                             </li>
                                         </ul>
                                     </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
                             <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
                                 <label><img src="../../static/image/icon_add2.png" alt=""></label>
@@ -232,7 +234,7 @@
                 hasUpLoadFileNameList: [],
                 timeSel: "选择签订日期",
                 timeSel1: "选择签订日期",
-                childDetails: {}
+                childDetails: {},
             };
         },
         methods: {
@@ -271,24 +273,58 @@
                     }
                 );                
             },
+            delThisContractFile(index){
+                this.hasUpLoadFileList.splice(index,1);
+                this.hasUpLoadFileNameList.splice(index,1);
+            },
             saveContract() {
                 var vm = this;
-                var formData = new FormData($( "#form01" )[0]);
-                $.ajax({  
-                    url: 'http://47.98.224.133:9994/api/uploadContractFile' ,  
-                    type: 'POST',  
-                    data: formData,
-                    async: true,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (returndata) {  
-                        alert("上传成功");  
-                    },  
-                    error: function (returndata) {  
-                        alert("上传失败");  
-                    }  
-                });  
+                var money = /^\d{1,16}$/;
+                var tel = /^(13[0-9]|14[4|5|7]|15[0|1|2|3|5|6|7|8|9]|17[3|7|8]|18[0-9])\d{8}$/;
+                if(vm.childDetails.prjName==""||vm.childDetails.contractCode==""||vm.childDetails.contractName==""||vm.childDetails.totalAmount==""){
+                    mui.alert("资料填写不完整，请补充","提示");
+                    return;
+                }
+                else if(vm.childDetails.prjName==undefined||vm.childDetails.contractCode==undefined||vm.childDetails.contractName==undefined||vm.childDetails.totalAmount==undefined){
+                    mui.alert("资料填写不完整，请补充1","提示");
+                    return;
+                }
+                else if(!money.test(vm.childDetails.totalAmount)){
+                    mui.alert("合同签订金额只能填写数字","提示");
+                    return;
+                }
+                else if(!tel.test(vm.childDetails.contractorLinkPhone) || !tel.test(vm.childDetails.pmLinkPhone)){
+                    mui.alert("请输入正确的手机号码","提示");
+                    return;
+                }
+                var formData = new FormData();
+                $.each(vm.hasUpLoadFileList,function(k,v){
+                    formData.append('file', v);
+                })
+                for (var Key in vm.childDetails){
+                    formData.append(Key, vm.childDetails[Key]);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', "/addContract", true);
+                xhr.send(formData);
+                // // 指定通信过程中状态改变时的回调函数
+                xhr.onreadystatechange = function () {
+                    // 通信成功时，状态值为4
+                    var completed = 4;
+                    if (xhr.readyState === completed) {
+                        if (xhr.status === 200) {
+                            // 处理服务器发送过来的数据
+                            var result = JSON.parse(xhr.responseText);
+                            if(result.result=="1"){
+                                mui.alert("合同录入成功", '提示', function() {
+                                    vm.$router.push("/contractList");
+                                });
+                            };
+                        } else {// 处理错误
+                            mui.alert("连接超时", '警告');
+                        }
+                    }
+                };
             }
         }
     };
@@ -320,7 +356,7 @@
         display: flex;
         justify-content: flex-start;
         padding-bottom: 15px;
-        margin-left: 24px;
+        margin-left: 12px;
     }
 
     .mui-input-row label~input,
@@ -440,7 +476,11 @@
 
     #minHeightSet {
         height: auto;
-        min-height: 90px;
+        /* min-height: 90px; */
+    }
+
+    #minHeightSet div#ulParent{
+        width: 100%;
     }
 
     #minHeightSet span {
@@ -467,5 +507,11 @@
         font-size: 24px;
         padding: 5px;
         text-align: right;
+    }
+
+    .delThisContractFileSpan{
+        width: 42px;
+        height: 42px;
+        margin: auto;
     }
 </style>
