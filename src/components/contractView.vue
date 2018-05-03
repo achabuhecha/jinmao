@@ -150,13 +150,13 @@
                             <span class="itemTypeName">合同附件</span>
                         </a>
                         <div class="mui-collapse-content">
-                            <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
+                            <div id="minHeightSet" class="mui-input-row">
                                 <input v-show="false" type="file" name="upLoadFile" id="asa">
                                 <div>
                                     <ul>
                                         <li v-for="(file,index) in hasUpLoadFileList" :key="index">
                                             <label><img src="../../static/image/icon_yre.png" alt=""></label>
-                                            <span v-show="hasUpLoadFile">{{file}}</span>
+                                            <span>{{file}}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -181,19 +181,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mui-collapse-content">
-                            <div id="minHeightSet" class="mui-input-row" v-show="hasUpLoadFile">
+                        <!-- <div class="mui-collapse-content">
+                            <div id="minHeightSet" class="mui-input-row">
                                 <input v-show="false" type="file" name="upLoadFile" id="asa">
                                 <div>
                                     <ul>
                                         <li v-for="(file,index) in hasUpLoadFileList" :key="index">
                                             <label><img src="../../static/image/icon_yre.png" alt=""></label>
-                                            <span v-show="hasUpLoadFile">{{file}}</span>
+                                            <span>{{file}}</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                 </ul>
             </div>
@@ -205,7 +205,6 @@
         data() {
             return {
                 asd: false,
-                hasUpLoadFile: false,
                 textTips: "点击此处上传合同附件",
                 createTime: true,
                 fileName: "",
@@ -214,7 +213,9 @@
             }
         },
         created() {
-            this.childDetails = this.$route.params.contractDetails
+            this.childDetails = this.$route.params.contractDetails;
+            var contractCode = this.childDetails.contractCode;
+            this.getFileName(contractCode);
         },
         mounted: function() {
             $("input.singleInput").attr("readonly", "readonly") //将input元素设置为readonly
@@ -223,7 +224,27 @@
             '$route' (val, oldVal) {
                 if(val.path == "/contractView") {
                     this.childDetails = val.params.contractDetails;
+                    var contractCode = this.childDetails.contractCode;
+                    this.getFileName(contractCode);
                 }
+            }
+        },
+        methods:{
+            getFileName(contractCode){
+                var vm = this;
+                vm.axios.post('/getContractFileNames', {
+                    contractCode:contractCode
+                })
+                .then(function(data) {
+                    if(data.data.result == "1") {
+                        vm.hasUpLoadFileList = data.data.data;
+                    } else {
+                        mui.alert(data.data.message, '警告')
+                    };
+                })
+                .catch(function(error) {
+                    console.log(error)
+                })
             }
         }
     };
@@ -297,7 +318,7 @@
     .singleTitle {
         font-size: 32px;
         color: #333333;
-        width: 40%;
+        width: 45%;
     }
 
     .mui-table-view-cell {
@@ -375,7 +396,7 @@
 
     #minHeightSet {
         height: auto;
-        min-height: 90px;
+        /* min-height: 90px; */
     }
 
     #minHeightSet span {

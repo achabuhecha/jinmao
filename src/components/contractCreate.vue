@@ -159,7 +159,6 @@
                                             <li v-for="(file,index) in hasUpLoadFileNameList" :key="index">
                                                 <label><img src="../../static/image/icon_yre.png" alt=""></label>
                                                 <span v-show="hasUpLoadFile">{{file}}</span>
-                                                <!-- <span class="delThisContractFileSpan" @tap="delThisContractFile(index)">X</span> -->
                                                 <img class="delThisContractFileSpan" @tap="delThisContractFile(index)" src="../../static/image/delFile.png" alt="">
                                             </li>
                                         </ul>
@@ -398,7 +397,7 @@
     .singleTitle {
         font-size: 32px;
         color: #333333;
-        width: 40%;
+        width: 45%;
     }
 
     .mui-table-view-cell {
