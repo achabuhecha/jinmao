@@ -167,7 +167,7 @@
                             </div>
                             <div class="uploadFileDiv mui-input-row singleContentDivNotFirst">
                                 <label><img src="../../static/image/icon_add2.png" alt=""></label>
-                                <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件</p>
+                                <p class="tapToUpLoadFileText" @tap="triggerUpLoadFile">点击此处上传合同附件(单个文件小于100M)</p>
                             </div>
                         </div>
                     </li>
@@ -278,7 +278,7 @@
             },
             saveContract() {
                 var vm = this;
-                var money = /^\d{1,16}$/;
+                var money = /^\d{1}$|^[1-9]\d{1,15}$|^0$|^\d{1}[.]\d{1,2}$|^[1-9]\d{1,15}[.]\d{1,2}$/;
                 var tel = /^(13[0-9]|14[4|5|7]|15[0|1|2|3|5|6|7|8|9]|17[3|7|8]|18[0-9])\d{8}$/;
                 if(vm.childDetails.prjName==""||vm.childDetails.contractCode==""||vm.childDetails.contractName==""||vm.childDetails.totalAmount==""){
                     mui.alert("资料填写不完整，请补充","提示");
@@ -289,14 +289,17 @@
                     return;
                 }
                 else if(!money.test(vm.childDetails.totalAmount)){
-                    mui.alert("合同签订金额只能填写数字","提示");
+                    mui.alert("请输入正确的合同签订金额","提示");
                     return;
                 }
-                else if(!tel.test(vm.childDetails.contractorLinkPhone) || !tel.test(vm.childDetails.pmLinkPhone)){
-                    mui.alert("请输入正确的手机号码","提示");
-                    return;
+                if(vm.childDetails.contractorLinkPhone!=undefined||vm.childDetails.pmLinkPhone!=undefined){
+                    if(!tel.test(vm.childDetails.contractorLinkPhone) || !tel.test(vm.childDetails.pmLinkPhone)){
+                        mui.alert("请输入正确的手机号码","提示");
+                        return;
+                    }
                 }
                 var formData = new FormData();
+                formData.append('username', localStorage.getItem("username"));                
                 $.each(vm.hasUpLoadFileList,function(k,v){
                     formData.append('file', v);
                 })
