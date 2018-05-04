@@ -304,13 +304,14 @@
                     formData.append(Key, vm.childDetails[Key]);
                 }
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', "/addContract", true);
+                xhr.open('POST', "http://47.98.224.133:9994/api/addContract", true);
                 xhr.send(formData);
                 // // 指定通信过程中状态改变时的回调函数
                 xhr.onreadystatechange = function () {
                     // 通信成功时，状态值为4
                     var completed = 4;
                     if (xhr.readyState === completed) {
+                        // console.log(xhr)
                         if (xhr.status === 200) {
                             // 处理服务器发送过来的数据
                             var result = JSON.parse(xhr.responseText);
@@ -320,7 +321,7 @@
                                 });
                             };
                         } else {// 处理错误
-                            mui.alert("连接超时", '警告');
+                            mui.alert(xhr, '警告');
                         }
                     }
                 };
@@ -397,7 +398,7 @@
     .singleTitle {
         font-size: 32px;
         color: #333333;
-        width: 45%;
+        width: 42%;
     }
 
     .mui-table-view-cell {

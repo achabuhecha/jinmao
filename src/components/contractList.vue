@@ -7,8 +7,8 @@
     <div class="mui-scroll-wrapper contractQueryWrapper">
       <div class="mui-scroll">
           <ul class="mui-table-view contractList">
-            <li class="mui-table-view-cell" v-for="(item,index) in listJson" :key="index">
-              <a class="mui-navigate-right contractCode" @tap="toViewDetails(index)">合同编码：{{item.contractID}}</a>
+            <li class="mui-table-view-cell" v-for="(item,index) in listJson" :key="index" @tap="toViewDetails(index)">
+              <a class="mui-navigate-right contractCode">合同编码：{{item.contractID}}</a>
               <p class="contractName">{{item.contractName}}</p>
               <div class="date-type-prize">
                 <span class="contractDate">{{item.signingDate}}</span>

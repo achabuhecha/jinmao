@@ -318,7 +318,7 @@
     .singleTitle {
         font-size: 32px;
         color: #333333;
-        width: 45%;
+        width: 42%;
     }
 
     .mui-table-view-cell {
