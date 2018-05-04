@@ -28,6 +28,14 @@
         password: ""
       }
     },
+    created(){
+      if(localStorage.getItem("username")){
+        this.username = localStorage.getItem("username")
+      }
+      if(localStorage.getItem("password")){
+        this.password = localStorage.getItem("password")
+      }
+    },
     methods: {
       loginApp() {
         var account = this.username;
