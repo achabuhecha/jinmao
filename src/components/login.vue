@@ -24,9 +24,8 @@
     name: 'login',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App',
-        username: "yaowei",
-        password: '333333'
+        username: "",
+        password: ""
       }
     },
     methods: {
